@@ -4,12 +4,17 @@ import { useContext, useState } from "react";
 import AuthContext from "../../context/AuthContext/AuthContext";
 import { FcGoogle } from "react-icons/fc";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import Swal from "sweetalert2";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 const SignUp = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const from = location.state || '/';
     const [showPassword, setShowPassword] = useState(false)
     const [error, setError] = useState('');
-    const { updateNamePhoto, CreateUser,handleGoogle } = useContext(AuthContext);
+    const { updateNamePhoto, CreateUser, handleGoogle } = useContext(AuthContext);
 
     const handleRegister = (e) => {
         e.preventDefault();
@@ -39,13 +44,20 @@ const SignUp = () => {
         CreateUser(email, password)
             .then(res => {
                 console.log(res)
-                updateNamePhoto({displayName: name, photoURL: photo})
-                .then(() => {
-                    alert('Your SuccessFully Register')
-                })
-                .catch(error => {
-                    setError(error)
-                })
+                updateNamePhoto({ displayName: name, photoURL: photo })
+                    .then(() => {
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Your Successfully SIgnUp",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        navigate(from)
+                    })
+                    .catch(error => {
+                        setError(error)
+                    })
             })
             .catch(error => {
                 console.log(error.message)
@@ -56,14 +68,21 @@ const SignUp = () => {
 
     const handlwGooogleSignin = () => {
         handleGoogle()
-        .then(res => {
-            alert("SuccessFully Google SignIn")
-            console.log(res.user)
-        })
-        .catch(errro => {
-            console.log(errro.message)
-            setError(errro.message)
-        })
+            .then(res => {
+                console.log(res.user)
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Your Successfully Google SignUp",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                navigate(from)
+            })
+            .catch(errro => {
+                console.log(errro.message)
+                setError(errro.message)
+            })
     };
     return (
         <div className="hero bg-base-200 min-h-screen">
@@ -97,7 +116,7 @@ const SignUp = () => {
                             <label className="label">
                                 <span className="label-text">Password</span>
                             </label>
-                            <input type={showPassword ? 'text' : "password"}  name="password" placeholder="Enter Your Password" className="input input-bordered" required />
+                            <input type={showPassword ? 'text' : "password"} name="password" placeholder="Enter Your Password" className="input input-bordered" required />
                             {error && <p className="text-red-500">{error}</p>}
                         </div>
                         <div className="form-control mt-6">

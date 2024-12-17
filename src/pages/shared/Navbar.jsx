@@ -2,37 +2,44 @@ import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import AuthContext from "../../context/AuthContext/AuthContext";
 import logoi from '../../assets/icon/icons8-portal-64-removebg-preview.png'
+import Swal from "sweetalert2";
 
 
 const Navbar = () => {
-    const { user,hndleLogOut } = useContext(AuthContext);
+    const { user, hndleLogOut } = useContext(AuthContext);
 
     const handleSignOUt = () => {
         hndleLogOut()
-        .then(() => {
-            console.log('SuccessFully SignOut')
-            alert('SuccessFully SignOut')
-        })
-        .catch(error => {
-            console.log(error.message)
-        })
+            .then(() => {
+                console.log('SuccessFully SignOut')
+                Swal.fire({
+                                   position: "top-end",
+                                   icon: "success",
+                                   title: "Your Successfully LogOut",
+                                   showConfirmButton: false,
+                                   timer: 1500
+                               });
+            })
+            .catch(error => {
+                console.log(error.message)
+            })
     }
 
     const navbar = <>
         <li className=''><NavLink className={({ isActive }) =>
             `py-3 text-lg rounded-2xl ${isActive ? 'underline hover:font-bold font-bold text-[#3C65F5]' : 'hover:underline hover:text-blue-950 hover:font-bold'}`} to={'/'}>Home</NavLink></li>
         <li className=''><NavLink className={({ isActive }) =>
-            `py-3 text-lg rounded-2xl ${isActive ? 'underline hover:font-bold font-bold text-[#3C65F5]' : 'hover:underline hover:text-blue-950 hover:font-bold'}`} to={'/1'}>Find a Job</NavLink></li>
+            `py-3 text-lg rounded-2xl ${isActive ? 'underline hover:font-bold font-bold text-[#3C65F5]' : 'hover:underline hover:text-blue-950 hover:font-bold'}`} to={'/myApplication'}>My Application</NavLink></li>
         <li className=''><NavLink className={({ isActive }) =>
-            `py-3 text-lg rounded-2xl ${isActive ? 'underline hover:font-bold font-bold text-[#3C65F5]' : 'hover:underline hover:text-blue-950 hover:font-bold'}`} to={'/2'}>Recruiters</NavLink></li>
+            `py-3 text-lg rounded-2xl ${isActive ? 'underline hover:font-bold font-bold text-[#3C65F5]' : 'hover:underline hover:text-blue-950 hover:font-bold'}`} to={'/addJob'}>Add a Job</NavLink></li>
         <li className=''><NavLink className={({ isActive }) =>
-            `py-3 text-lg rounded-2xl ${isActive ? 'underline hover:font-bold font-bold text-[#3C65F5]' : 'hover:underline hover:text-blue-950 hover:font-bold'}`} to={'/3'}>Candidates</NavLink></li>
+            `py-3 text-lg rounded-2xl ${isActive ? 'underline hover:font-bold font-bold text-[#3C65F5]' : 'hover:underline hover:text-blue-950 hover:font-bold'}`} to={'/myPostedJobs'}>My Posted Jobs</NavLink></li>
         <li className=''><NavLink className={({ isActive }) =>
-            `py-3 text-lg rounded-2xl ${isActive ? 'underline hover:font-bold font-bold text-[#3C65F5]' : 'hover:underline hover:text-blue-950 hover:font-bold'}`} to={'/4'}>Pages</NavLink></li>
+            `py-3 text-lg rounded-2xl ${isActive ? 'underline hover:font-bold font-bold text-[#3C65F5]' : 'hover:underline hover:text-blue-950 hover:font-bold'}`} to={'/'}>Pages</NavLink></li>
         <li className=''><NavLink className={({ isActive }) =>
-            `py-3 text-lg rounded-2xl ${isActive ? 'underline hover:font-bold font-bold text-[#3C65F5]' : 'hover:underline hover:text-blue-950 hover:font-bold'}`} to={'/5'}>Blog</NavLink></li>
+            `py-3 text-lg rounded-2xl ${isActive ? 'underline hover:font-bold font-bold text-[#3C65F5]' : 'hover:underline hover:text-blue-950 hover:font-bold'}`} to={'/'}>Blog</NavLink></li>
         <li className=''><NavLink className={({ isActive }) =>
-            `py-3 text-lg rounded-2xl ${isActive ? 'underline hover:font-bold font-bold text-[#3C65F5]' : 'hover:underline hover:text-blue-950 hover:font-bold'}`} to={'/6'}>Contact</NavLink></li>
+            `py-3 text-lg rounded-2xl ${isActive ? 'underline hover:font-bold font-bold text-[#3C65F5]' : 'hover:underline hover:text-blue-950 hover:font-bold'}`} to={'/'}>Contact</NavLink></li>
     </>
     return (
         <div className="navbar bg-base-100">
@@ -71,10 +78,11 @@ const Navbar = () => {
             <div className="navbar-end">
                 {
                     user ? <>
-                        <button onClick={handleSignOUt} className="btn">Log Out</button>
-                    </> : <>
-                        <Link className="btn" to={'/signup'}>SignUp</Link>
-                        <Link className="btn" to={'/login'}>Login</Link></>
+                        <button onClick={handleSignOUt} className="btn bg-gradient-to-r from-blue-200 to-blue-400 text-white">Log Out</button>
+                    </> : <div className="flex gap-3">
+                        <Link className="btn bg-gradient-to-r from-blue-400 to-blue-200 text-white" to={'/signup'}>SignUp</Link>
+                        <Link className="btn bg-gradient-to-r from-blue-200 to-blue-400 text-white" to={'/login'}>Login</Link>
+                    </div>
                 }
 
             </div>

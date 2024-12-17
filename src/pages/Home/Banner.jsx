@@ -1,4 +1,3 @@
-import { easeOut } from "motion";
 import { motion } from "motion/react"
 import team1 from '../../assets/team/team (1).jpg'
 import team2 from '../../assets/team/team (2).jpg'
@@ -22,8 +21,8 @@ const Banner = () => {
 
                 <div className="flex-1">
                     <h1 className="text-5xl font-bold">The <motion.span
-                        animate={{ x: 50, backgroundColor: 'bg-gradient-to-r from-blue-500 to-blue-200' }}
-                        transition={{ delay: 1, duration: 2, repeat: Infinity, ease: easeOut }}
+                        animate={{ x: [0, 50, 0], backgroundColor: 'bg-gradient-to-r from-blue-500 to-blue-200' }}
+                        transition={{ delay: 2, duration: 4, repeat: Infinity }}
                         className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-200"
                     > Easiest Way</motion.span><br />
                         to Get Your New Job</h1>
